@@ -500,21 +500,13 @@ class ReportService:
             plt.close()
 
             await self.plot_grsch(req, pdf)
-
             await self.plot_dgu(req, pdf)
-
             await self.plot_ibp(req, pdf)
-
             await self.plot_schr(req, pdf)
-
             await self.plot_pdu(req, pdf)
-
             await self.plot_hot(req, pdf)
-
             await self.plot_cold(req, pdf)
-
             await self.plot_conditioner(req, pdf)
-
             await self.plot_chiller(req, pdf)
 
         self.report_repo.fadd(filename, object_name)

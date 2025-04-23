@@ -21,7 +21,7 @@ router = APIRouter(
 )
 
 
-@router.post('/generate')
+@router.post('/')
 async def upload(
     report_service: Annotated[ReportService, Depends(get_report_service)],
     generate_req: GenerateRequest
@@ -34,7 +34,7 @@ def delete_file(file_path: str):
     os.unlink(file_path)
 
 
-@router.get('/file')
+@router.get('/')
 async def download(
     report_service: Annotated[ReportService, Depends(get_report_service)],
     filename: str,
@@ -53,7 +53,7 @@ async def download(
     return response
 
 
-@router.get('/file/list')
+@router.get('/list')
 async def list_(
     report_service: Annotated[ReportService, Depends(get_report_service)]
 ):

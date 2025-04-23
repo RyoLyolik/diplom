@@ -31,6 +31,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 	_, err = tx.Exec(`
 	DROP TABLE IF EXISTS users;
 	DROP TABLE IF EXISTS user_roles;
+	DROP INDEX IF EXISTS idx_users_email;
 	CREATE TABLE IF NOT EXISTS user_roles (
 		role_id INTEGER PRIMARY KEY,
 		title TEXT

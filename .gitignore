@@ -11,3 +11,4 @@ uv.lock
 .ruff_cache
 .coverage
 .vscode
+отчет*.pdf

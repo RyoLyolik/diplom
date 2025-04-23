@@ -2,23 +2,41 @@ import logging
 
 from contextlib import asynccontextmanager
 
+from sqlalchemy import text
+
+from providers.db import get_async_engine, get_async_session
+
 import uvicorn
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from providers.db import get_async_engine
+
+async def prepare():
+    async for session in get_async_session():
+        session: AsyncSession
+        query = 'DROP TABLE IF EXISTS incedent;'
+        await session.execute(text(query))
+        query = '''
+CREATE TABLE incedent (
+    incedent_id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP,
+    title TEXT,
+    filename TEXT NULL,
+    ext TEXT NULL
+);
+'''
+        await session.execute(text(query))
+    print('INCEDENT RELATION CREATED')
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # from src.utils.db import create_db_and_tables, delete_tables
-
     engine = get_async_engine()
 
-    # await delete_tables(engine)
-    # await create_db_and_tables(engine)
+    await prepare()
 
     yield
 
