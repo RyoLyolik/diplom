@@ -1,0 +1,60 @@
+networks:
+  data_center:
+    name: ${NETWORK}
+    driver: bridge
+
+services:
+  account_service:
+    build:
+      context: account-service
+      dockerfile: ./Dockerfile
+    container_name: account-service_${APP_NAME}__${ENVIRONMENT}
+    env_file:
+      - ${ENV_FILE}
+    ports:
+      - ${HTTP_PORT}:8080
+    networks:
+      - data_center
+
+  translator:
+    build:
+      context: translator-service
+      dockerfile: ./Dockerfile
+    container_name: translator_${APP_NAME}__${ENVIRONMENT}
+    env_file:
+      - ${ENV_FILE}
+    ports:
+      - ${TRANSLATOR_PORT}:2112
+      - 2114:2114
+    networks:
+      - data_center
+    depends_on:
+      - producer
+
+  producer:
+    build:
+      context: producer
+      dockerfile: Dockerfile
+    container_name: producer_${APP_NAME}__${ENVIRONMENT}
+    env_file:
+      - ${ENV_FILE}
+    networks:
+      - data_center
+    ports:
+      - 2113:2113
+
+  # reports:
+  #   build:
+  #     context: reports
+  #     dockerfile: Dockerfile
+  #   container_name: reports_${APP_NAME}__${ENVIRONMENT}
+  #   env_file:
+  #     - ${ENV_FILE}
+  #   networks:
+  #     - brick_net
+  #   ports:
+  #     - 9999:9999
+  #   command: 'uv run python src/run.py'
+  #   volumes:
+  #     - ./reports:/usr/prj
+  #   restart: always
