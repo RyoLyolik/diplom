@@ -118,7 +118,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
 		temperatureIn DOUBLE PRECISION NOT NULL,
-		humidityOut DOUBLE PRECISION NOT NULL
+		temperatureOut DOUBLE PRECISION NOT NULL
 	);
 	`)
 	if err != nil {

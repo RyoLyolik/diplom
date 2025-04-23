@@ -43,18 +43,18 @@ services:
     ports:
       - 2113:2113
 
-  # reports:
-  #   build:
-  #     context: reports
-  #     dockerfile: Dockerfile
-  #   container_name: reports_${APP_NAME}__${ENVIRONMENT}
-  #   env_file:
-  #     - ${ENV_FILE}
-  #   networks:
-  #     - brick_net
-  #   ports:
-  #     - 9999:9999
-  #   command: 'uv run python src/run.py'
-  #   volumes:
-  #     - ./reports:/usr/prj
-  #   restart: always
+  reports:
+    build:
+      context: data-service
+      dockerfile: Dockerfile
+    container_name: reports_${APP_NAME}__${ENVIRONMENT}
+    env_file:
+      - ${ENV_FILE}
+    networks:
+      - data_center
+    ports:
+      - 9999:9999
+    command: 'uv run python src/run.py'
+    volumes:
+      - ./data-service:/usr/prj
+    restart: always
