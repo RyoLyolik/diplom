@@ -3,7 +3,7 @@ from typing import Generator
 from value_generator import value_generator
 
 
-ANOMALY_CHANGE = 0.000001
+ANOMALY_CHANGE = 0.001
 
 
 def grsch_generator(amount: int) -> Generator[dict, None, None]:
@@ -189,9 +189,9 @@ def setup_generator(setpoints: list[float]) -> Generator[tuple[int, int], None, 
     generators = [
         value_generator(
             set_point=sp,
-            noise_level=sp/1000,
+            noise_level=sp/500,
             anomaly_chance=ANOMALY_CHANGE,
-            anomaly_size=sp/10,
+            anomaly_size=sp/5,
         )
         for sp in setpoints
     ]

@@ -147,13 +147,13 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 				continue
 			}
 			msgChan <- message
-			// alert, err := mh.CheckAlert(ctx, message)
-			// if err != nil {
-			// 	log.Error("failed to handle message", "err", err)
-			// }
-			// if alert != nil {
-			// 	alertChan <- alert
-			// }
+			alert, err := mh.CheckAlert(ctx, message)
+			if err != nil {
+				log.Error("failed to handle message", "err", err)
+			}
+			if alert != nil {
+				alertChan <- alert
+			}
 
 			err = mh.HandleMessage(ctx, message)
 			if err != nil {
