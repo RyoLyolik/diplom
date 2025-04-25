@@ -1,5 +1,7 @@
 
-from schemes.data import Filter, FoundData
+from datetime import datetime, timedelta
+
+from schemes.data import DataResponse, FoundData
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,52 +11,176 @@ class DataRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_by_filter(self, filt: Filter, limit=True) -> list[FoundData]:
-        query_start = f'''
-        SELECT *
-        FROM {filt.datatype}'''
-        qc = 0
-        query = ''
-        if filt.timefrom and filt.timeto:
-            query += f' (timestamp BETWEEN \'{filt.timefrom.isoformat()}\' AND \'{filt.timeto.isoformat()}\')'
-            qc += 1
-        elif filt.timefrom:
-            query += f' timestamp >= \'{filt.timefrom.isoformat()}\''
-            qc += 1
-        elif filt.timeto:
-            query += f' timestamp <= \'{filt.timeto.isoformat()}\''
-            qc += 1
-
-        if filt.lower_equal or filt.greater_equal:
-            qc2 = 0
-            if qc:
-                query += ' AND'
-            if filt.lower_equal:
-                qc2 += 1
-                query += f' value <= {filt.lower_equal}'
-            if filt.greater_equal:
-                if qc2:
-                    query += ' AND'
-                query += f' value >= {filt.greater_equal}'
-            qc += 1
-        if filt.position:
-            if qc:
-                query += ' AND'
-            query += f' position = {filt.position}'
-        final = query_start
-        if query:
-            final += ' WHERE' + query + ' ORDER BY timestamp' + ' LIMIT 500' * limit + ';'  # TODO make pagination after
-        result = await self.session.execute(text(final))
+    async def get_by_filter(self, tablename: str, position: int) -> DataResponse:
+        query = f'''
+SELECT * FROM {tablename}
+WHERE position={position}
+ORDER BY timestamp DESC
+LIMIT 300;
+        '''
+        result = await self.session.execute(text(query))
         rows = result.all()
-        result = []
+        result = {'times': [], 'data': {}}
         for row in rows:
-            fdata = FoundData.model_construct(
-                timestamp=row[1],
-                position=row[2],
-                value=row[3],
-            )
-            result.append(fdata)
-        return result
+            result['times'].append(row[2] + timedelta(hours=3))
+        match tablename:
+            case 'chiller':
+                result['data'] = {
+                    'Температура на входе': {
+                        'uof': '°C',
+                        'values': [],
+                    },
+                    'Температура на выходе': {
+                        'uof': '°C',
+                        'values': [],
+                    }
+                }
+                for row in rows:
+                    result['data']['Температура на входе']['values'].append(row[3])
+                    result['data']['Температура на выходе']['values'].append(row[4])
+            case 'cold':
+                result['data'] = {
+                    'Температура': {
+                        'uof': '°C',
+                        'values': [],
+                    },
+                    'Влажность': {
+                        'uof': '',
+                        'values': [],
+                    }
+                }
+                for row in rows:
+                    result['data']['Температура']['values'].append(row[3])
+                    result['data']['Влажность']['values'].append(row[4])
+            case 'hot':
+                result['data'] = {
+                    'Температура': {
+                        'uof': '°C',
+                        'values': [],
+                    },
+                    'Влажность': {
+                        'uof': '',
+                        'values': [],
+                    }
+                }
+                for row in rows:
+                    result['data']['Температура']['values'].append(row[3])
+                    result['data']['Влажность']['values'].append(row[4])
+            case 'conditioner':
+                result['data'] = {
+                    'Температура': {
+                        'uof': '°C',
+                        'values': [],
+                    },
+                }
+                for row in rows:
+                    result['data']['Температура']['values'].append(row[3])
+            case 'dgu':
+                result['data'] = {
+                    'Напряжение': {
+                        'uof': 'В',
+                        'values': [],
+                    },
+                    'Активная мощность': {
+                        'uof': 'кВт',
+                        'values': [],
+                    },
+                    'Коэффициент мощности': {
+                        'uof': '',
+                        'values': [],
+                    },
+                    'Уровень топлива': {
+                        'uof': '',
+                        'values': [],
+                    }
+                }
+                for row in rows:
+                    result['data']['Напряжение']['values'].append(row[3])
+                    result['data']['Активная мощность']['values'].append(row[4])
+                    result['data']['Коэффициент мощности']['values'].append(row[5])
+                    result['data']['Уровень топлива']['values'].append(row[6])
+            case 'grsch':
+                result['data'] = {
+                    'Напряжение': {
+                        'uof': 'В',
+                        'values': [],
+                    },
+                    'Активная мощность': {
+                        'uof': 'кВт',
+                        'values': [],
+                    },
+                    'Коэффициент мощности': {
+                        'uof': '',
+                        'values': [],
+                    },
+                }
+                for row in rows:
+                    result['data']['Напряжение']['values'].append(row[3])
+                    result['data']['Активная мощность']['values'].append(row[4])
+                    result['data']['Коэффициент мощности']['values'].append(row[5])
+            case 'ibp':
+                result['data'] = {
+                    'Напряжение': {
+                        'uof': 'В',
+                        'values': [],
+                    },
+                    'Активная мощность': {
+                        'uof': 'кВт',
+                        'values': [],
+                    },
+                    'Коэффициент мощности': {
+                        'uof': '',
+                        'values': [],
+                    },
+                    'Уровень заряда': {
+                        'uof': '',
+                        'values': [],
+                    },
+                    'Нагрузка': {
+                        'uof': '',
+                        'values': [],
+                    }
+                }
+                for row in rows:
+                    result['data']['Напряжение']['values'].append(row[3])
+                    result['data']['Активная мощность']['values'].append(row[4])
+                    result['data']['Коэффициент мощности']['values'].append(row[5])
+                    result['data']['Уровень заряда']['values'].append(row[6])
+                    result['data']['Нагрузка']['values'].append(row[7])
+            case 'pdu':
+                result['data'] = {
+                    'Напряжение': {
+                        'uof': 'В',
+                        'values': [],
+                    },
+                    'Сила тока': {
+                        'uof': 'кВт',
+                        'values': [],
+                    },
+                }
+                for row in rows:
+                    result['data']['Напряжение']['values'].append(row[3])
+                    result['data']['Сила тока']['values'].append(row[4])
+            case 'schr':
+                result['data'] = {
+                    'Напряжение': {
+                        'uof': 'В',
+                        'values': [],
+                    },
+                    'Активная мощность': {
+                        'uof': 'кВт',
+                        'values': [],
+                    },
+                    'Коэффициент мощности': {
+                        'uof': '',
+                        'values': [],
+                    },
+                }
+                for row in rows:
+                    result['data']['Напряжение']['values'].append(row[3])
+                    result['data']['Активная мощность']['values'].append(row[4])
+                    result['data']['Коэффициент мощности']['values'].append(row[5])
+        return DataResponse.model_validate(result)
 
     async def get_min_max_grouped(
         self,

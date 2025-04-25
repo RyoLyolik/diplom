@@ -12,4 +12,4 @@ async def get_data_service(
     session: Annotated[AsyncSession, Depends(get_async_session)],
 ):
     data_repo = DataRepository(session=session)
-    return DataService(repo=data_repo)
+    return DataService(data_repo=data_repo)

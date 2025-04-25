@@ -8,7 +8,6 @@ ANOMALY_CHANGE = 0.001
 
 def grsch_generator(amount: int) -> Generator[dict, None, None]:
     voltage_in_generator = setup_generator([400])
-    voltage_out_generator = setup_generator([400])
     active_generator = setup_generator([700])
     coefficient_generator = setup_generator([0.97])
     while True:
@@ -16,8 +15,7 @@ def grsch_generator(amount: int) -> Generator[dict, None, None]:
         for pos_id in range(amount):
             temp = {}
             temp['posId'] = pos_id
-            temp['voltageIn'] = next(voltage_in_generator)
-            temp['voltageOut'] = next(voltage_out_generator)
+            temp['voltage'] = next(voltage_in_generator)
             temp['activePower'] = next(active_generator)
             temp['coefficient'] = next(coefficient_generator)
             data.append(temp)
@@ -25,7 +23,6 @@ def grsch_generator(amount: int) -> Generator[dict, None, None]:
 
 def dgu_generator(amount: int) -> Generator[dict, None, None]:
     voltage_in_generator = setup_generator([400])
-    voltage_out_generator = setup_generator([400])
     active_generator = setup_generator([700])
     coefficient_generator = setup_generator([0.97])
     fuel_generator = setup_generator([0.8])
@@ -33,8 +30,7 @@ def dgu_generator(amount: int) -> Generator[dict, None, None]:
         data = []
         for pos_id in range(amount):
             temp = {}
-            temp['voltageIn'] = next(voltage_in_generator)
-            temp['voltageOut'] = next(voltage_out_generator)
+            temp['voltage'] = next(voltage_in_generator)
             temp['activePower'] = next(active_generator)
             temp['coefficient'] = next(coefficient_generator)
             temp['fuel'] = next(fuel_generator)
@@ -43,7 +39,6 @@ def dgu_generator(amount: int) -> Generator[dict, None, None]:
 
 def ibp_generator(amount: int) -> Generator[dict, None, None]:
     voltage_in_generator = setup_generator([400])
-    voltage_out_generator = setup_generator([400])
     active_generator = setup_generator([700])
     coefficient_generator = setup_generator([0.97])
     charge_generator = setup_generator([0.95])
@@ -52,8 +47,7 @@ def ibp_generator(amount: int) -> Generator[dict, None, None]:
         data = []
         for pos_id in range(amount):
             temp = {}
-            temp['voltageIn'] = next(voltage_in_generator)
-            temp['voltageOut'] = next(voltage_out_generator)
+            temp['voltage'] = next(voltage_in_generator)
             temp['activePower'] = next(active_generator)
             temp['coefficient'] = next(coefficient_generator)
             temp['charge'] = next(charge_generator)
@@ -63,15 +57,13 @@ def ibp_generator(amount: int) -> Generator[dict, None, None]:
 
 def schr_generator(amount: int) -> Generator[dict, None, None]:
     voltage_in_generator = setup_generator([400])
-    voltage_out_generator = setup_generator([400])
     active_generator = setup_generator([700])
     coefficient_generator = setup_generator([0.97])
     while True:
         data = []
         for pos_id in range(amount):
             temp = {}
-            temp['voltageIn'] = next(voltage_in_generator)
-            temp['voltageOut'] = next(voltage_out_generator)
+            temp['voltage'] = next(voltage_in_generator)
             temp['activePower'] = next(active_generator)
             temp['coefficient'] = next(coefficient_generator)
             data.append(temp)
@@ -80,14 +72,12 @@ def schr_generator(amount: int) -> Generator[dict, None, None]:
 
 def pdu_generator(amount: int) -> Generator[dict, None, None]:
     voltage_in_generator = setup_generator([230])
-    voltage_out_generator = setup_generator([230])
     current_generator = setup_generator([16])
     while True:
         data = []
         for pos_id in range(amount):
             temp = {}
-            temp['voltageIn'] = next(voltage_in_generator)
-            temp['voltageOut'] = next(voltage_out_generator)
+            temp['voltage'] = next(voltage_in_generator)
             temp['current'] = next(current_generator)
             data.append(temp)
         yield data

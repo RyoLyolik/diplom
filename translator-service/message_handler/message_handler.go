@@ -40,37 +40,23 @@ func (mh *messageHandler) CheckAlert(ctx context.Context, message []byte) ([]byt
 	for i, el := range msg.Data {
 		switch msg.RecordType {
 		case domain.GRSCH:
-			voltageInDiff := el["voltageIn"] - 400
+			voltageInDiff := el["voltage"] - 400
 			if abs(voltageInDiff) > 40 {
 				alert.Title = fmt.Sprintf(titleTemp, "ГРЩ", i+1)
 				alert.Detail = fmt.Sprintf(detailTemp, "входного напряжения", voltageInDiff)
-			}
-			voltageOutDiff := el["voltageOut"] - 400
-			if abs(voltageOutDiff) > 40 {
-				alert.Title = fmt.Sprintf(titleTemp, "ГРЩ", i+1)
-				alert.Detail = fmt.Sprintf(detailTemp, "выходного напряжения", voltageOutDiff)
 			}
 		case domain.DGU:
-			voltageInDiff := el["voltageIn"] - 400
+			voltageInDiff := el["voltage"] - 400
 			if abs(voltageInDiff) > 40 {
 				alert.Title = fmt.Sprintf(titleTemp, "ДГУ", i+1)
 				alert.Detail = fmt.Sprintf(detailTemp, "входного напряжения", voltageInDiff)
 			}
-			voltageOutDiff := el["voltageOut"] - 400
-			if abs(voltageOutDiff) > 40 {
-				alert.Title = fmt.Sprintf(titleTemp, "ДГУ", i+1)
-				alert.Detail = fmt.Sprintf(detailTemp, "выходного напряжения", voltageOutDiff)
-			}
+
 		case domain.IBP:
-			voltageInDiff := el["voltageIn"] - 400
+			voltageInDiff := el["voltage"] - 400
 			if abs(voltageInDiff) > 40 {
 				alert.Title = fmt.Sprintf(titleTemp, "ИБП", i+1)
 				alert.Detail = fmt.Sprintf(detailTemp, "входного напряжения", voltageInDiff)
-			}
-			voltageOutDiff := el["voltageOut"] - 400
-			if abs(voltageOutDiff) > 40 {
-				alert.Title = fmt.Sprintf(titleTemp, "ИБП", i+1)
-				alert.Detail = fmt.Sprintf(detailTemp, "выходного напряжения", voltageOutDiff)
 			}
 		case domain.SCHR:
 		case domain.PDU:

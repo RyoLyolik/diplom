@@ -17,3 +17,13 @@ class Filter(BaseModel):
     position: int | None
     timefrom: datetime | None
     timeto: datetime | None
+
+
+class DataElement(BaseModel):
+    uof: str
+    values: list[float]
+
+
+class DataResponse(BaseModel):
+    times: list[datetime]
+    data: dict[str, DataElement]

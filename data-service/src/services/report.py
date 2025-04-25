@@ -73,19 +73,7 @@ class ReportService:
             parameter='voltageIn',
             rng=2,
             target=400,
-            title='Входное напряжение',
-            legend='ГРЩ',
-            xlabel='Время',
-            ylabel='Напряжение, В'
-        )
-        await self.plot(
-            req,
-            pdf,
-            tablename='GRSCH',
-            parameter='voltageOut',
-            rng=2,
-            target=400,
-            title='Выходное напряжение',
+            title='Напряжение',
             legend='ГРЩ',
             xlabel='Время',
             ylabel='Напряжение, В'
@@ -128,19 +116,7 @@ class ReportService:
             parameter='voltageIn',
             rng=2,
             target=400,
-            title='Входное напряжение',
-            legend='ДГУ',
-            xlabel='Время',
-            ylabel='Напряжение, В'
-        )
-        await self.plot(
-            req,
-            pdf,
-            tablename='DGU',
-            parameter='voltageOut',
-            rng=2,
-            target=400,
-            title='Выходное напряжение',
+            title='Напряжение',
             legend='ДГУ',
             xlabel='Время',
             ylabel='Напряжение, В'
@@ -195,19 +171,7 @@ class ReportService:
             parameter='voltageIn',
             rng=2,
             target=400,
-            title='Входное напряжение',
-            legend='ИБП',
-            xlabel='Время',
-            ylabel='Напряжение, В'
-        )
-        await self.plot(
-            req,
-            pdf,
-            tablename='IBP',
-            parameter='voltageOut',
-            rng=2,
-            target=400,
-            title='Выходное напряжение',
+            title='Напряжение',
             legend='ИБП',
             xlabel='Время',
             ylabel='Напряжение, В'
@@ -274,19 +238,7 @@ class ReportService:
             parameter='voltageIn',
             rng=2,
             target=400,
-            title='Входное напряжение',
-            legend='ЩР',
-            xlabel='Время',
-            ylabel='Напряжение, В'
-        )
-        await self.plot(
-            req,
-            pdf,
-            tablename='SCHR',
-            parameter='voltageOut',
-            rng=8,
-            target=400,
-            title='Выходное напряжение',
+            title='Напряжение',
             legend='ЩР',
             xlabel='Время',
             ylabel='Напряжение, В'

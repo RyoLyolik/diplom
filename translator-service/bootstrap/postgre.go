@@ -42,8 +42,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		record_id SERIAL PRIMARY KEY,
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
-		voltageIn DOUBLE PRECISION NOT NULL,
-		voltageOut DOUBLE PRECISION NOT NULL,
+		voltage DOUBLE PRECISION NOT NULL,
 		activePower DOUBLE PRECISION NOT NULL,
 		coefficient DOUBLE PRECISION NOT NULL
 	);
@@ -52,8 +51,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		record_id SERIAL PRIMARY KEY,
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
-		voltageIn DOUBLE PRECISION NOT NULL,
-		voltageOut DOUBLE PRECISION NOT NULL,
+		voltage DOUBLE PRECISION NOT NULL,
 		activePower DOUBLE PRECISION NOT NULL,
 		coefficient DOUBLE PRECISION NOT NULL,
 		fuel DOUBLE PRECISION NOT NULL
@@ -63,8 +61,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		record_id SERIAL PRIMARY KEY,
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
-		voltageIn DOUBLE PRECISION NOT NULL,
-		voltageOut DOUBLE PRECISION NOT NULL,
+		voltage DOUBLE PRECISION NOT NULL,
 		activePower DOUBLE PRECISION NOT NULL,
 		coefficient DOUBLE PRECISION NOT NULL,
 		charge DOUBLE PRECISION NOT NULL,
@@ -75,8 +72,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		record_id SERIAL PRIMARY KEY,
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
-		voltageIn DOUBLE PRECISION NOT NULL,
-		voltageOut DOUBLE PRECISION NOT NULL,
+		voltage DOUBLE PRECISION NOT NULL,
 		activePower DOUBLE PRECISION NOT NULL,
 		coefficient DOUBLE PRECISION NOT NULL
 	);
@@ -85,8 +81,7 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		record_id SERIAL PRIMARY KEY,
 		position INTEGER NOT NULL,
 		timestamp TIMESTAMP NOT NULL,
-		voltageIn DOUBLE PRECISION NOT NULL,
-		voltageOut DOUBLE PRECISION NOT NULL,
+		voltage DOUBLE PRECISION NOT NULL,
 		current DOUBLE PRECISION NOT NULL
 	);
 

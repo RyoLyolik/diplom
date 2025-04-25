@@ -31,29 +31,29 @@ func (pr *recordRepository) Add(ctx context.Context, record map[string]float64, 
 	switch type_ {
 	case domain.GRSCH:
 		stmt := `
-		INSERT INTO GRSCH (position, timestamp, voltageIn, voltageOut, activePower, coefficient) VALUES ($1, $2, $3, $4, $5, $6)
+		INSERT INTO GRSCH (position, timestamp, voltage, activePower, coefficient) VALUES ($1, $2, $3, $4, $5)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageIn"], record["voltageOut"], record["activePower"], record["coefficient"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltage"], record["activePower"], record["coefficient"])
 	case domain.DGU:
 		stmt := `
-		INSERT INTO DGU (position, timestamp, voltageIn, voltageOut, activePower, coefficient, fuel) VALUES ($1, $2, $3, $4, $5, $6, $7)
+		INSERT INTO DGU (position, timestamp, voltage, activePower, coefficient, fuel) VALUES ($1, $2, $3, $4, $5, $6)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageIn"], record["voltageOut"], record["activePower"], record["coefficient"], record["fuel"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltage"], record["activePower"], record["coefficient"], record["fuel"])
 	case domain.IBP:
 		stmt := `
-		INSERT INTO IBP (position, timestamp, voltageIn, voltageOut, activePower, coefficient, charge, load) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		INSERT INTO IBP (position, timestamp, voltage, activePower, coefficient, charge, load) VALUES ($1, $2, $3, $4, $5, $6, $7)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageIn"], record["voltageOut"], record["activePower"], record["coefficient"], record["charge"], record["load"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltage"], record["activePower"], record["coefficient"], record["charge"], record["load"])
 	case domain.SCHR:
 		stmt := `
-		INSERT INTO SCHR (position, timestamp, voltageIn, voltageOut, activePower, coefficient) VALUES ($1, $2, $3, $4, $5, $6)
+		INSERT INTO SCHR (position, timestamp, voltage, activePower, coefficient) VALUES ($1, $2, $3, $4, $5)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageIn"], record["voltageOut"], record["activePower"], record["coefficient"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltage"], record["activePower"], record["coefficient"])
 	case domain.PDU:
 		stmt := `
-		INSERT INTO PDU (position, timestamp, voltageIn, voltageOut, current) VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO PDU (position, timestamp, voltage, current) VALUES ($1, $2, $3, $4)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageIn"], record["voltageOut"], record["current"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltageOut"], record["current"])
 	case domain.Hot:
 		stmt := `
 		INSERT INTO hot (position, timestamp, temperature, humidity) VALUES ($1, $2, $3, $4)
