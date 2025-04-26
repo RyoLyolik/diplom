@@ -5,29 +5,29 @@ from datetime import timedelta
 from uuid import uuid4
 
 from repositories.data import DataRepository
-from repositories.incedent import IncedentRepository
+from repositories.incident import incidentRepository
 from schemes.data import FoundData
 from schemes.report import GenerateRequest
 
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
-from schemes.incedent import IncedentData, IncedentMeta
+from schemes.incident import incidentData, incidentMeta
 
 
-class IncedentService:
-    def __init__(self, incedent_repo: IncedentRepository):
-        self.incedent_repo = incedent_repo
+class incidentService:
+    def __init__(self, incident_repo: incidentRepository):
+        self.incident_repo = incident_repo
 
     async def get(self, id):
-        return await self.incedent_repo.get(id)
+        return await self.incident_repo.get(id)
 
     async def list(self):
-        res = await self.incedent_repo.list()
+        res = await self.incident_repo.list()
         return res
 
     async def update_file(self, id, fp):
-        await self.incedent_repo.attach_file(id, fp)
+        await self.incident_repo.attach_file(id, fp)
 
-    async def add(self, meta: IncedentMeta, fp=None):
-        await self.incedent_repo.add(meta, fp)
+    async def add(self, meta: incidentMeta, fp=None):
+        await self.incident_repo.add(meta, fp)

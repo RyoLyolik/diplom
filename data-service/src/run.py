@@ -17,11 +17,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 async def prepare():
     async for session in get_async_session():
         session: AsyncSession
-        query = 'DROP TABLE IF EXISTS incedent;'
+        query = 'DROP TABLE IF EXISTS incident;'
         await session.execute(text(query))
         query = '''
-CREATE TABLE incedent (
-    incedent_id SERIAL PRIMARY KEY,
+CREATE TABLE incident (
+    incident_id SERIAL PRIMARY KEY,
     timestamp TIMESTAMP,
     title TEXT,
     filename TEXT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE incedent (
 );
 '''
         await session.execute(text(query))
-    print('INCEDENT RELATION CREATED')
+    print('incident RELATION CREATED')
 
 
 @asynccontextmanager

@@ -14,6 +14,7 @@ router = APIRouter(
         401: {},
         404: {},
     },
+    tags=['data']
 )
 
 

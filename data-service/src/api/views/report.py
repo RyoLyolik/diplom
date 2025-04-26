@@ -13,7 +13,7 @@ from fastapi.responses import FileResponse
 
 router = APIRouter(
     prefix='/report',
-    tags=['auth'],
+    tags=['report'],
     responses={
         401: {},
         404: {},
@@ -22,7 +22,7 @@ router = APIRouter(
 
 
 @router.post('/')
-async def upload(
+async def generate(
     report_service: Annotated[ReportService, Depends(get_report_service)],
     generate_req: GenerateRequest
 ):

@@ -3,12 +3,12 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class IncedentMeta(BaseModel):
+class incidentMeta(BaseModel):
     timestamp: datetime
     title: str
 
 
-class IncedentData(BaseModel):
+class incidentData(BaseModel):
     id: int
     title: str
     timestamp: datetime

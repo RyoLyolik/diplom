@@ -37,6 +37,16 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 	DROP TABLE IF EXISTS cold;
 	DROP TABLE IF EXISTS conditioner;
 	DROP TABLE IF EXISTS chiller;
+	DROP INDEX IF EXISTS idx_grsch_timestamp;
+	DROP INDEX IF EXISTS idx_dgu_timestamp;
+	DROP INDEX IF EXISTS idx_ibp_timestamp;
+	DROP INDEX IF EXISTS idx_schr_timestamp;
+	DROP INDEX IF EXISTS idx_pdu_timestamp;
+	DROP INDEX IF EXISTS idx_hot_timestamp;
+	DROP INDEX IF EXISTS idx_cold_timestamp;
+	DROP INDEX IF EXISTS idx_conditioner_timestamp;
+	DROP INDEX IF EXISTS idx_chiller_timestamp;
+
 
 	CREATE TABLE IF NOT EXISTS GRSCH (
 		record_id SERIAL PRIMARY KEY,
@@ -115,6 +125,15 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		temperatureIn DOUBLE PRECISION NOT NULL,
 		temperatureOut DOUBLE PRECISION NOT NULL
 	);
+	CREATE INDEX idx_grsch_timestamp on grsch(timestamp);
+	CREATE INDEX idx_dgu_timestamp on dgu(timestamp);
+	CREATE INDEX idx_ibp_timestamp on ibp(timestamp);
+	CREATE INDEX idx_schr_timestamp on schr(timestamp);
+	CREATE INDEX idx_pdu_timestamp on pdu(timestamp);
+	CREATE INDEX idx_hot_timestamp on hot(timestamp);
+	CREATE INDEX idx_cold_timestamp on cold(timestamp);
+	CREATE INDEX idx_conditioner_timestamp on conditioner(timestamp);
+	CREATE INDEX idx_chiller_timestamp on chiller(timestamp);
 	`)
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)

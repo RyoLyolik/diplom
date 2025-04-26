@@ -2,22 +2,22 @@
 from datetime import timedelta
 from uuid import uuid4
 
-from schemes.incedent import IncedentData, IncedentMeta
+from schemes.incident import incidentData, incidentMeta
 
 from minio import Minio
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class IncedentRepository:
+class incidentRepository:
     def __init__(self, client: Minio, session: AsyncSession):
         self.client = client
-        self.bucket = 'incedents'
+        self.bucket = 'incidents'
         if not self.client.bucket_exists(self.bucket):
             self.client.make_bucket(self.bucket)
         self.session = session
 
-    async def add(self, meta: IncedentMeta, fp=None):
+    async def add(self, meta: incidentMeta, fp=None):
         filename = 'NULL'
         ext = 'NULL'
         if fp is not None:
@@ -26,7 +26,7 @@ class IncedentRepository:
             self.__fadd(fp, filename)
             filename = f"'{filename}'"
         query = f'''
-INSERT INTO incedent (timestamp, title, filename, ext) VALUES ('{meta.timestamp}', '{meta.title}', {filename}, {ext});
+INSERT INTO incident (timestamp, title, filename, ext) VALUES ('{meta.timestamp}', '{meta.title}', {filename}, {ext});
 '''
         await self.session.execute(text(query))
 
@@ -42,22 +42,22 @@ INSERT INTO incedent (timestamp, title, filename, ext) VALUES ('{meta.timestamp}
         ext = fp.split('.')[-1]
         self.__fadd(fp, filename)
         query = f'''
-UPDATE incedent
+UPDATE incident
 SET filename = '{filename}', ext = '{ext}'
-WHERE incedent_id={id};
+WHERE incident_id={id};
 '''
         await self.session.execute(text(query))
 
-    async def list(self) -> list[IncedentData]:
+    async def list(self) -> list[incidentData]:
         query = '''
-SELECT incedent_id, title, filename, timestamp FROM incedent
+SELECT incident_id, title, filename, timestamp FROM incident
 ORDER BY timestamp;
 '''
         result = await self.session.execute(text(query))
         rows = result.all()
         ans = []
         for row in rows:
-            idata = IncedentData.model_validate(
+            idata = incidentData.model_validate(
                 dict(id=row[0],
                 title=row[1],
                 filename=row[2],
@@ -69,8 +69,8 @@ ORDER BY timestamp;
 
     async def get(self, id):
         query = f'''
-SELECT incedent_id, title, filename, timestamp, ext FROM incedent
-WHERE incedent_id={id};
+SELECT incident_id, title, filename, timestamp, ext FROM incident
+WHERE incident_id={id};
 '''
         result = await self.session.execute(text(query))
         if not result:

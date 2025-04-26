@@ -5,17 +5,17 @@ from datetime import datetime
 from typing import Annotated
 from uuid import uuid4
 
-from providers.incedent import get_incedent_service
-from schemes.incedent import IncedentMeta
-from services.incedent import IncedentService
+from providers.incident import get_incident_service
+from schemes.incident import incidentMeta
+from services.incident import incidentService
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, UploadFile
 from fastapi.responses import FileResponse
 
 
 router = APIRouter(
-    prefix='/incedent',
-    tags=['auth'],
+    prefix='/incident',
+    tags=['incident'],
     responses={
         401: {},
         404: {},
@@ -29,12 +29,12 @@ def delete_file(file_path: str):
 
 @router.get('/')
 async def download(
-    incedent_service: Annotated[IncedentService, Depends(get_incedent_service)],
+    incident_service: Annotated[incidentService, Depends(get_incident_service)],
     id: int,
     background_tasks: BackgroundTasks,
 ):
     tmp_path = ''
-    fn, iodata = await incedent_service.get(id)
+    fn, iodata = await incident_service.get(id)
     with tempfile.NamedTemporaryFile(delete=False) as tmp:
         tmp.write(iodata)
         tmp_path = tmp.name
@@ -48,19 +48,19 @@ async def download(
 
 @router.get('/list/')
 async def list_(
-    incedent_service: Annotated[IncedentService, Depends(get_incedent_service)]
+    incident_service: Annotated[incidentService, Depends(get_incident_service)]
 ):
-    return await incedent_service.list()
+    return await incident_service.list()
 
 
 @router.post('/')
-async def create_incedent(
+async def create_incident(
     timestamp: datetime,
     title: str,
-    incedent_service: Annotated[IncedentService, Depends(get_incedent_service)],
+    incident_service: Annotated[incidentService, Depends(get_incident_service)],
     file: UploadFile | None = File(None),
 ):
-    meta = IncedentMeta.model_validate(dict(timestamp=timestamp, title=title))
+    meta = incidentMeta.model_validate(dict(timestamp=timestamp, title=title))
     fp = None
     if file is not None:
         ext = file.filename.split('.')[-1]
@@ -68,7 +68,7 @@ async def create_incedent(
         with open(f'./{fp}', mode='wb') as f:
             data = await file.read()
             f.write(data)
-    await incedent_service.add(meta, fp)
+    await incident_service.add(meta, fp)
     try:
         os.remove(fp)
     except Exception:
@@ -76,9 +76,9 @@ async def create_incedent(
 
 
 @router.patch('/')
-async def attach_incedent_file(
+async def attach_incident_file(
     id: int,
-    incedent_service: Annotated[IncedentService, Depends(get_incedent_service)],
+    incident_service: Annotated[incidentService, Depends(get_incident_service)],
     file: UploadFile = File(...),
 ):
     ext = file.filename.split('.')[-1]
@@ -86,7 +86,7 @@ async def attach_incedent_file(
     with open(f'./{fp}', mode='wb') as f:
         data = await file.read()
         f.write(data)
-    await incedent_service.update_file(id, fp)
+    await incident_service.update_file(id, fp)
     try:
         os.remove(fp)
     except Exception:
