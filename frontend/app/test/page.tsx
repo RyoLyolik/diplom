@@ -1,5 +1,5 @@
 "use client";
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/NavBar';
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function SomePage() {

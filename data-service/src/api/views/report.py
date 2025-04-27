@@ -53,7 +53,7 @@ async def download(
     return response
 
 
-@router.get('/list')
+@router.get('/list/')
 async def list_(
     report_service: Annotated[ReportService, Depends(get_report_service)]
 ):

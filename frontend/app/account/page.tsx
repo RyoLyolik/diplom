@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/NavBar";
 import { useUser } from "@/contexts/UserContext";
 
 

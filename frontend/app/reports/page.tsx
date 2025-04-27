@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/NavBar";
 
 interface Report {
   filename: string;

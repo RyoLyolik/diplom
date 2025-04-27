@@ -14,7 +14,6 @@ def grsch_generator(amount: int) -> Generator[dict, None, None]:
         data = []
         for pos_id in range(amount):
             temp = {}
-            temp['posId'] = pos_id
             temp['voltage'] = next(voltage_in_generator)
             temp['activePower'] = next(active_generator)
             temp['coefficient'] = next(coefficient_generator)
