@@ -19,7 +19,7 @@ ORDER BY timestamp DESC
 LIMIT 300;
         '''
         result = await self.session.execute(text(query))
-        rows = result.all()
+        rows = result.all()[::-1]
         result = {'times': [], 'data': {}}
         for row in rows:
             result['times'].append(row[2] + timedelta(hours=3))

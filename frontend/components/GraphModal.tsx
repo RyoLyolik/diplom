@@ -16,7 +16,7 @@ export default function GraphModal({
   const [graphData, setGraphData] = useState<any>(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:9999/api/data/?parameter=${param}&position=${position}`)
+    axios.get(`http://localhost:9999/api/data/?parameter=${param}&position=${position+1}`)
       .then(response => {
         // Преобразуем данные для Recharts
         const formattedData = response.data.times.map((time: string, i: number) => ({
