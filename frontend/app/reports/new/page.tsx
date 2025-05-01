@@ -73,11 +73,10 @@ export default function CreateReportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
+    <div>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow">
+        <div className="max-w-md mx-auto bg-gray-700 p-8 rounded-lg shadow">
           <h1 className="text-2xl font-bold mb-6">Создать новый отчет</h1>
           
           {error && (
@@ -88,7 +87,7 @@ export default function CreateReportPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="timefrom" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="timefrom" className="block text-sm font-medium text-gray-300 mb-1">
                 Дата начала
               </label>
               <input
@@ -103,7 +102,7 @@ export default function CreateReportPage() {
             </div>
 
             <div>
-              <label htmlFor="timeto" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="timeto" className="block text-sm font-medium text-gray-300 mb-1">
                 Дата окончания
               </label>
               <input
@@ -118,7 +117,7 @@ export default function CreateReportPage() {
             </div>
 
             <div>
-              <label htmlFor="grouping" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="grouping" className="block text-sm font-medium text-gray-300 mb-1">
                 Группировка данных
               </label>
               <select
@@ -139,14 +138,14 @@ export default function CreateReportPage() {
               <button
                 type="button"
                 onClick={() => router.push('/reports')}
-                className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 rounded text-gray-300 hover:bg-gray-800"
               >
                 Отмена
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className={`px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 ${
+                className={`px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 ${
                   loading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >

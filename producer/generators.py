@@ -3,7 +3,7 @@ from typing import Generator
 from value_generator import value_generator
 
 
-ANOMALY_CHANGE = 0.001
+ANOMALY_CHANGE = 0.01
 
 
 def grsch_generator(amount: int) -> Generator[dict, None, None]:

@@ -27,8 +27,8 @@ export default function ReportsPage() {
       setError(null);
       
       const response = await axios.get('http://localhost:3377/api/reports/list');
-      console.log(response.data)
-      console.log(response)
+      // console.log(response.data)
+      // console.log(response)
       setReports(response.data);
     } catch (err) {
       setError(
@@ -81,14 +81,13 @@ export default function ReportsPage() {
     const match = filename.match(/отчет\.(\d{2}-\d{2}-\d{4}) — (\d{2}-\d{2}-\d{4})/);
     return match ? `За период: ${match[1]} — ${match[2]}` : filename;
   };
-
+  console.log(reports)
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
+    <div className="min-h-screen bg-gray-800">
       
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Отчеты системы</h1>
+          <h1 className="text-2xl font-bold text-green-400">Отчеты системы</h1>
           <button
             onClick={() => router.push('/reports/new')}
             className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
@@ -124,35 +123,35 @@ export default function ReportsPage() {
         ) : (
           <div className="bg-white shadow overflow-hidden rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-900">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Название</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Размер</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Дата создания</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Название</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Размер</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Дата создания</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Действия</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-700 divide-y divide-gray-800">
                 {reports.map((report, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
+                  <tr key={index} className="hover:bg-gray-800">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium text-gray-100">
                         {parseReportDate(report.filename)}
                       </div>
                       <div className="text-sm text-gray-500">
                         {report.filename}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                       {formatFileSize(report.size)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                       {formatDate(report.creation_date)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => downloadReport(report.filename)}
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-indigo-300 hover:text-indigo-500"
                       >
                         Скачать
                       </button>

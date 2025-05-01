@@ -23,7 +23,7 @@ export default function GraphModal({
           time,
           ...Object.fromEntries(
             Object.entries(response.data.data).map(([key, val]: [string, any]) => [
-              key, 
+              key + ' ' + val.uof, 
               val.values[i]
             ])
           )

@@ -8,6 +8,8 @@ type MonitoringSchemeProps = {
       data: Array<{
         temperature?: number;
         humidity?: number;
+        temperatureIn?: number;
+        temperatureOut?: number;
       }>;
     };
   };
@@ -66,9 +68,17 @@ const SCHEME_ELEMENTS = [
     ]
   },
   {
+    type: 'conditioner',
+    positions: [
+      { x: 190, y: 325 },
+      { x: 190, y: 550 },
+    ]
+  },
+  {
     type: 'chiller',
     positions: [
-      { x: 10, y: 10 }
+      { x: -10, y: 325 },
+      { x: -10, y: 550 },
     ]
   }
   // Добавьте другие устройства по аналогии
@@ -88,7 +98,6 @@ export default function MonitoringScheme({
       
       {SCHEME_ELEMENTS.map((device) => {
         const deviceData = devicesData[device.type];
-        
         return device.positions.map((pos, positionIdx) => (
           <div
             key={`${device.type}-${positionIdx}`}
@@ -104,12 +113,22 @@ export default function MonitoringScheme({
                   position: positionIdx 
                 })}
               >
-                {deviceData.data[positionIdx].temperature !== undefined && (
+                {(deviceData.data[positionIdx].temperatureIn !== undefined && deviceData.data[positionIdx].temperatureOut !== undefined) && (device.type=='chiller') && (
+                  <div>
+                    <div className="text-blue-400 text-sm">
+                      Темп входа: {Math.round(deviceData.data[positionIdx].temperatureIn*10)/10}°C
+                    </div>
+                    <div className="text-blue-400 text-sm">
+                      Темп выхода: {Math.round(deviceData.data[positionIdx].temperatureOut*10)/10}°C
+                    </div>
+                  </div>
+                )}
+                {(deviceData.data[positionIdx].temperature !== undefined) && (device.type=='cold' || device.type=='hot' || device.type=='conditioner') && (
                   <div className="text-blue-400 text-sm">
                     Темп: {Math.round(deviceData.data[positionIdx].temperature*10)/10}°C
                   </div>
                 )}
-                {deviceData.data[positionIdx].humidity !== undefined && (
+                {(deviceData.data[positionIdx].humidity !== undefined) && (device.type=='cold' || device.type=='hot') && (
                   <div className="text-blue-300 text-sm">
                     Влаж: {Math.round(deviceData.data[positionIdx].humidity*10)/10}%
                   </div>

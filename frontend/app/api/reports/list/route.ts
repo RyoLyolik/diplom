@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const resp = await axios.get(
-        `http://localhost:9999/api/report/file/list`,
+        `http://localhost:9999/api/report/list/`,
     );
     const response = NextResponse.json(resp.data);
     return response;

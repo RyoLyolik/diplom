@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang="ru" className="dark">
       <body className={`${inter.className} bg-gray-900 text-gray-100`}>
         <NavBar />
-        <main className="container mx-auto p-4">{children}</main>
+        <main className="mx-auto p-4">{children}</main>
         <NotificationManager />
       </body>
     </html>

@@ -23,7 +23,7 @@ LIMIT 300;
         result = {'times': [], 'data': {}}
         for row in rows:
             result['times'].append(row[2] + timedelta(hours=3))
-        match tablename:
+        match tablename.lower():
             case 'chiller':
                 result['data'] = {
                     'Температура на входе': {

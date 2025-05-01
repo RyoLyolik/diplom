@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import MonitoringScheme from '@/components/MonitoringScheme';
 import GraphModal from '@/components/GraphModal';
+import MonitoringSchemeEl from '@/components/MonitoringSchemeEl';
 
 type DeviceData = {
   [key: string]: {
@@ -12,6 +12,13 @@ type DeviceData = {
       humidity?: number;
       temperatureIn?: number;
       temperatureOut?: number;
+      voltage?: number,
+      current?: number,
+      fuel?: number,
+      load?: number,
+      charge?: number,
+      activePower?: number,
+      coefficient?: number,
     }>;
   };
 };
@@ -45,7 +52,7 @@ export default function MonitoringPage() {
       <h1 className="text-2xl mb-4 text-green-400">Мониторинг оборудования</h1>
       
       <div className="border border-gray-700 rounded-lg p-2">
-        <MonitoringScheme 
+        <MonitoringSchemeEl 
           devicesData={devicesData} 
           onParamClick={setSelectedParam} 
         />
