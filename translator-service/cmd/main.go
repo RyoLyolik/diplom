@@ -59,7 +59,6 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		conn, err := upgrader.Upgrade(w, r, nil)
-		log.Info("New connection!!!!!!!!!!!")
 		if err != nil {
 			log.Error("failed to upgrade to WebSocket", "err", err)
 			return
@@ -179,7 +178,6 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 					}
 				}
 				clientsMu.Unlock()
-				// time.Sleep(time.Millisecond * 200)
 			case <-ctx.Done():
 				return
 			}
@@ -202,7 +200,6 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 					}
 				}
 				clientsMu.Unlock()
-				// time.Sleep(time.Millisecond * 200)
 			case <-ctx.Done():
 				return
 			}

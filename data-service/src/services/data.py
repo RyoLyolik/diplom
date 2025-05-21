@@ -7,4 +7,4 @@ class DataService:
         self.data_repo = data_repo
 
     async def get(self, equipment: str, position: int) -> DataResponse:
-        return await self.data_repo.get_by_filter(equipment, position)
+        return await self.data_repo.get_by_filter(equipment, position + 1)

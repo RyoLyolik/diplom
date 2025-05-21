@@ -53,7 +53,7 @@ func (pr *recordRepository) Add(ctx context.Context, record map[string]float64, 
 		stmt := `
 		INSERT INTO PDU (position, timestamp, voltage, current) VALUES ($1, $2, $3, $4)
 		`
-		_, err = tx.Exec(stmt, position, timestamp, record["voltageOut"], record["current"])
+		_, err = tx.Exec(stmt, position, timestamp, record["voltage"], record["current"])
 	case domain.Hot:
 		stmt := `
 		INSERT INTO hot (position, timestamp, temperature, humidity) VALUES ($1, $2, $3, $4)

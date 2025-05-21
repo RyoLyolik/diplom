@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,6 +35,17 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 	log := app.Log
 	gin := gin.Default()
 	address := fmt.Sprintf("%s:%d", app.Config.HttpServer.Host, app.Config.HttpServer.Port)
+
+	// Настройка CORS middleware для разрешения всех origins
+	config := cors.DefaultConfig()
+	// config.AllowAllOrigins = true
+	config.AllowOrigins = []string{"http://localhost:3030", "http://172.22.0.1:3030"}
+	config.AllowCredentials = true
+	config.ExposeHeaders = []string{"Set-Cookie"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization", "Set-Cookie"}
+
+	gin.Use(cors.New(config))
 
 	c.Add(app.Shutdown)
 
