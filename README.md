@@ -11,3 +11,5 @@ make dev
 cd frontend
 pnpm start
 ```
+# Работа в системе
+После запуска интерфейс системы будет доступен по адресу http://localhost:3030/auth/register
