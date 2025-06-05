@@ -18,7 +18,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// Upgrader для WebSocket соединений
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true // Разрешаем все источники (можно настроить более строго)
@@ -161,7 +160,7 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 		}
 	}()
 
-	go func() {
+	go func() { // для сообщений
 		for {
 			select {
 			case message := <-msgChan:
@@ -183,7 +182,7 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 			}
 		}
 	}()
-	go func() {
+	go func() { // для уведомлений
 		for {
 			select {
 			case alert := <-alertChan:

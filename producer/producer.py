@@ -31,10 +31,6 @@ sensors = [
     Sensor(chiller_generator(2), 'chiller'),
 ]
 
-# for sensor in sensors:
-#     sensor.start()
-
-
 async def echo(websocket: Connection):
     client_ip = websocket.remote_address[0]
     logger.info(f"Новое подключение от {client_ip}")

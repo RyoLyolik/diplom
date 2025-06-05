@@ -11,7 +11,7 @@ import (
 )
 
 type userRepository struct {
-	database *sql.DB //
+	database *sql.DB
 	logger   *slog.Logger
 }
 

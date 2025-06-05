@@ -27,7 +27,6 @@ func MakePostgres(log *slog.Logger, psqlConnectionInfo string) (*sql.DB, error) 
 		return nil, fmt.Errorf("%v", err)
 	}
 
-	// CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 	_, err = tx.Exec(`
 	DROP TABLE IF EXISTS users;
 	DROP TABLE IF EXISTS user_roles;

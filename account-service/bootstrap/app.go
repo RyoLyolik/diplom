@@ -11,7 +11,7 @@ import (
 )
 
 type Application struct {
-	Config         *Config
+	Config         *Config // main config
 	Log            *slog.Logger
 	Postgre        *sql.DB
 	SessionStorage *redis.Client

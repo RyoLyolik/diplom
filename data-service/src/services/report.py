@@ -432,7 +432,6 @@ class ReportService:
         object_name = f'отчет за {ts} — {te}.{str(uuid4())[:4]}.pdf'
         filename = object_name
         with PdfPages(filename) as pdf:
-            # Первая страница с заголовком
             plt.figure(figsize=(8, 6))
             plt.axis('off')
             plt.text(0.5, 0.5, f'Отчет за\n{ts} — {te}', ha='center', va='center', fontsize=24)

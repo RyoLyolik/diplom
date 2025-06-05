@@ -36,16 +36,14 @@ func runApp(ctx context.Context, app *bootstrap.Application) {
 	gin := gin.Default()
 	address := fmt.Sprintf("%s:%d", app.Config.HttpServer.Host, app.Config.HttpServer.Port)
 
-	// Настройка CORS middleware для разрешения всех origins
-	config := cors.DefaultConfig()
-	// config.AllowAllOrigins = true
-	config.AllowOrigins = []string{"http://localhost:3030", "http://172.22.0.1:3030"}
-	config.AllowCredentials = true
-	config.ExposeHeaders = []string{"Set-Cookie"}
-	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
-	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization", "Set-Cookie"}
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"http://localhost:3030", "http://172.22.0.1:3030"} // move to main config
+	corsConfig.AllowCredentials = true
+	corsConfig.ExposeHeaders = []string{"Set-Cookie"}
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	corsConfig.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization", "Set-Cookie"}
 
-	gin.Use(cors.New(config))
+	gin.Use(cors.New(corsConfig))
 
 	c.Add(app.Shutdown)
 

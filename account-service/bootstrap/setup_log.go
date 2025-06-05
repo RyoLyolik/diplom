@@ -7,30 +7,24 @@ import (
 	"os"
 )
 
-// CustomHandler is a custom slog.Handler that adds a component name in brackets.
 type CustomHandler struct {
-	component string       // Component name (e.g., "GIN")
-	handler   slog.Handler // Underlying handler for actual logging
+	component string
+	handler   slog.Handler
 }
 
-// Enabled checks if the log level is enabled.
 func (h *CustomHandler) Enabled(ctx context.Context, level slog.Level) bool {
 	return h.handler.Enabled(ctx, level)
 }
 
-// Handle formats and writes the log record.
 func (h *CustomHandler) Handle(ctx context.Context, record slog.Record) error {
-	// Prepend the component name in brackets to the log message
 	message := fmt.Sprintf("[%s] %s", h.component, record.Message)
 
-	// Format additional attributes (if any)
 	var attrs []string
 	record.Attrs(func(attr slog.Attr) bool {
 		attrs = append(attrs, fmt.Sprintf("%s=%v", attr.Key, attr.Value.String()))
 		return true
 	})
 
-	// Combine everything into a single log line
 	logLine := fmt.Sprintf(
 		"%s %s | %s",
 		message,
@@ -42,7 +36,6 @@ func (h *CustomHandler) Handle(ctx context.Context, record slog.Record) error {
 		logLine += " | " + fmt.Sprintf("%s", attrs)
 	}
 
-	// Write the formatted log line to the underlying handler
 	return h.handler.Handle(ctx, slog.Record{
 		Time:    record.Time,
 		Level:   record.Level,
@@ -50,7 +43,6 @@ func (h *CustomHandler) Handle(ctx context.Context, record slog.Record) error {
 	})
 }
 
-// WithAttrs adds attributes to the handler.
 func (h *CustomHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	return &CustomHandler{
 		component: h.component,
@@ -58,7 +50,6 @@ func (h *CustomHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	}
 }
 
-// WithGroup adds a group to the handler.
 func (h *CustomHandler) WithGroup(name string) slog.Handler {
 	return &CustomHandler{
 		component: h.component,
